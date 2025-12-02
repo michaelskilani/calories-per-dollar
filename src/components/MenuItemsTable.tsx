@@ -1,3 +1,4 @@
+// src/components/MenuItemsTable.tsx
 'use client';
 
 import * as React from 'react';
@@ -6,6 +7,8 @@ export interface MenuItemRow {
   id: string;
   restaurantName: string;
   restaurantCode: string;
+  cityCode: string;
+  cityName: string;
   name: string;
   category: string;
   price: number;
@@ -21,6 +24,7 @@ interface Props {
 
 type SortKey =
   | 'restaurantName'
+  | 'cityName'
   | 'name'
   | 'price'
   | 'caloriesPerDollar'
@@ -60,12 +64,15 @@ export const MenuItemsTable: React.FC<Props> = ({ items }) => {
     sortKey === key ? (sortDir === 'asc' ? '↑' : '↓') : '';
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-800 bg-black/40">
+    <div className="overflow-x-auto rounded-lg border border-gray-800 bg-black/40 shadow-xl">
       <table className="min-w-full text-sm">
-        <thead className="bg-gray-900">
+        <thead className="bg-gray-900/80">
           <tr>
             <Th onClick={() => handleSort('restaurantName')}>
               Restaurant {sortLabel('restaurantName')}
+            </Th>
+            <Th onClick={() => handleSort('cityName')}>
+              City {sortLabel('cityName')}
             </Th>
             <Th>Name</Th>
             <Th>Category</Th>
@@ -88,11 +95,20 @@ export const MenuItemsTable: React.FC<Props> = ({ items }) => {
           {sorted.map((item) => (
             <tr
               key={item.id}
-              className="border-t border-gray-800 hover:bg-gray-900/70"
+              className="border-t border-gray-800 hover:bg-gray-900/70 transition-colors"
             >
               <Td>{item.restaurantName}</Td>
+              <Td>
+                <span className="rounded-full bg-gray-800 px-2 py-1 text-xs text-gray-200">
+                  {item.cityName}
+                </span>
+              </Td>
               <Td>{item.name}</Td>
-              <Td>{item.category}</Td>
+              <Td>
+                <span className="rounded-full bg-blue-900/40 px-2 py-1 text-xs text-blue-200">
+                  {item.category}
+                </span>
+              </Td>
               <Td>${item.price.toFixed(2)}</Td>
               <Td>{item.calories}</Td>
               <Td>{item.proteinGrams.toFixed(1)}</Td>
@@ -113,8 +129,8 @@ const Th: React.FC<{
   <th
     onClick={onClick}
     className={
-      'px-4 py-2 text-left font-semibold text-gray-100 ' +
-      (onClick ? 'cursor-pointer select-none' : '')
+      'px-4 py-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-300 ' +
+      (onClick ? 'cursor-pointer select-none hover:text-white' : '')
     }
   >
     {children}
@@ -122,5 +138,5 @@ const Th: React.FC<{
 );
 
 const Td: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <td className="px-4 py-2 text-gray-100">{children}</td>
+  <td className="px-4 py-2 text-gray-100 align-middle">{children}</td>
 );
