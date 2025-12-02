@@ -8,9 +8,40 @@ interface ApiResponse {
   items: MenuItemRow[];
 }
 
-type CityFilter = 'ALL' | 'NYC' | 'HOU';
-type RestaurantFilter = 'ALL' | 'MCD' | 'POP' | 'SUB';
-type CategoryFilter = 'ALL' | 'Sandwich' | 'Side';
+type CityFilter =
+  | 'ALL'
+  | 'NYC'
+  | 'LAX'
+  | 'CHI'
+  | 'HOU'
+  | 'PHX'
+  | 'PHL'
+  | 'SAN'
+  | 'DAL'
+  | 'SFO'
+  | 'AUS';
+
+type RestaurantFilter =
+  | 'ALL'
+  | 'MCD'
+  | 'SBX'
+  | 'SUB'
+  | 'KFC'
+  | 'DMO'
+  | 'BKG'
+  | 'PZH'
+  | 'DNK'
+  | 'KKR'
+  | 'TCB';
+
+type CategoryFilter =
+  | 'ALL'
+  | 'Sandwich'
+  | 'Side'
+  | 'Pizza'
+  | 'Drink'
+  | 'Dessert'
+  | 'Breakfast';
 
 export default function HomePage() {
   const [items, setItems] = React.useState<MenuItemRow[]>([]);
@@ -105,8 +136,8 @@ export default function HomePage() {
               Calories / Dollar – Fast Food Explorer
             </h1>
             <p className="mt-2 text-gray-300">
-              Compare McDonald&apos;s, Popeyes, and Subway menu items by
-              calories per dollar and protein per dollar, across cities.
+              Compare popular items from top chains by calories per dollar and
+              protein per dollar, across major US cities.
             </p>
           </div>
 
@@ -123,7 +154,15 @@ export default function HomePage() {
             >
               <option value="ALL">All Cities</option>
               <option value="NYC">New York, NY</option>
+              <option value="LAX">Los Angeles, CA</option>
+              <option value="CHI">Chicago, IL</option>
               <option value="HOU">Houston, TX</option>
+              <option value="PHX">Phoenix, AZ</option>
+              <option value="PHL">Philadelphia, PA</option>
+              <option value="SAN">San Diego, CA</option>
+              <option value="DAL">Dallas, TX</option>
+              <option value="SFO">San Francisco, CA</option>
+              <option value="AUS">Austin, TX</option>
             </select>
           </div>
         </header>
@@ -140,8 +179,15 @@ export default function HomePage() {
                 {([
                   { label: 'All', value: 'ALL' },
                   { label: "McDonald's", value: 'MCD' },
-                  { label: 'Popeyes', value: 'POP' },
+                  { label: 'Starbucks', value: 'SBX' },
                   { label: 'Subway', value: 'SUB' },
+                  { label: 'KFC', value: 'KFC' },
+                  { label: "Domino's", value: 'DMO' },
+                  { label: 'Burger King', value: 'BKG' },
+                  { label: 'Pizza Hut', value: 'PZH' },
+                  { label: 'Dunkin', value: 'DNK' },
+                  { label: 'Krispy Kreme', value: 'KKR' },
+                  { label: 'Taco Bell', value: 'TCB' },
                 ] as const).map((opt) => (
                   <FilterPill
                     key={opt.value}
@@ -166,6 +212,10 @@ export default function HomePage() {
                   { label: 'All', value: 'ALL' },
                   { label: 'Sandwich', value: 'Sandwich' },
                   { label: 'Side', value: 'Side' },
+                  { label: 'Pizza', value: 'Pizza' },
+                  { label: 'Drink', value: 'Drink' },
+                  { label: 'Dessert', value: 'Dessert' },
+                  { label: 'Breakfast', value: 'Breakfast' },
                 ] as const).map((opt) => (
                   <FilterPill
                     key={opt.value}

@@ -1,3 +1,4 @@
+// src/app/api/menu-items/route.ts
 import { NextResponse } from 'next/server';
 import {
   menuItems,
@@ -23,13 +24,26 @@ export interface MenuItemApiRow {
   proteinPerDollar: number;
 }
 
+const validCityCodes: CityCode[] = [
+  'NYC',
+  'LAX',
+  'CHI',
+  'HOU',
+  'PHX',
+  'PHL',
+  'SAN',
+  'DAL',
+  'SFO',
+  'AUS',
+];
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const cityParam = searchParams.get('city'); // 'NYC' | 'HOU' | 'ALL' | null
+  const cityParam = searchParams.get('city'); // e.g. 'NYC', 'LAX', etc.
 
   let cityFilter: CityCode | null = null;
-  if (cityParam === 'NYC' || cityParam === 'HOU') {
-    cityFilter = cityParam;
+  if (cityParam && validCityCodes.includes(cityParam as CityCode)) {
+    cityFilter = cityParam as CityCode;
   }
 
   const rows: MenuItemApiRow[] = [];
@@ -50,7 +64,7 @@ export async function GET(request: Request) {
       id: priceRow.id,
       menuItemId: baseItem.id,
       restaurantCode: baseItem.restaurantCode,
-      restaurantName: getRestaurantName(baseItem.restaurantCode),
+      restaurantName: getRestaurantName(baseItem.restaurantCode as any),
       cityCode: priceRow.cityCode,
       cityName: getCityName(priceRow.cityCode),
       name: baseItem.name,
